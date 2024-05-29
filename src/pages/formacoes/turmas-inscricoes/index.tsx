@@ -155,7 +155,7 @@ export const TurmasInscricoes = () => {
                   {nomeFormacao}
                 </Typography.Title>
               </Col>
-              <Col xs={24} sm={8} id='colunaSorteio' style={{ textAlign: 'right' }}>
+              <Col xs={24} sm={8} style={{ textAlign: 'right' }}>
                 <Row align='middle' gutter={[8, 8]} justify='end'>
                   <Col>
                     <Typography.Text strong>
