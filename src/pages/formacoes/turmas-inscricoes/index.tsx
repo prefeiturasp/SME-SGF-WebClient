@@ -14,6 +14,7 @@ import {
   CF_BUTTON_ARQUIVO,
   CF_BUTTON_NOVO,
   CF_BUTTON_VOLTAR,
+  CF_BUTTON_SORTEIO,
 } from '~/core/constants/ids/button/intex';
 import { CF_INPUT_NOME, CF_INPUT_NOME_FORMACAO, CF_INPUT_RF } from '~/core/constants/ids/input';
 import { NOVA_INSCRICAO } from '~/core/constants/mensagens';
@@ -25,6 +26,7 @@ import { obterSeInscricaoEstaAberta } from '~/core/services/inscricao-service';
 import { onClickVoltar } from '~/core/utils/form';
 import { TurmasInscricoesListaPaginada } from './listagem';
 import SelectTodasTurmas from '~/components/main/input/selecionar-todas-turmas';
+import { SyncOutlined } from '@ant-design/icons';
 
 export interface FiltroTurmaInscricoesProps {
   cpf: number | null;
@@ -92,7 +94,9 @@ export const TurmasInscricoes = () => {
       registroFuncional: registroFuncional,
     });
   };
-
+  const sortear = () => {
+    alert('Sorteio');
+  };
   const obterDadosInscricao = useCallback(async () => {
     const resposta = await obterSeInscricaoEstaAberta(id);
 
@@ -110,7 +114,7 @@ export const TurmasInscricoes = () => {
       <Form form={form} layout='vertical' autoComplete='off' validateMessages={validateMessages}>
         <HeaderPage title='Lista de inscrições'>
           <Col span={24}>
-            <Row gutter={[8, 8]}>
+            <Row gutter={[8, 8]} justify='space-between'>
               <Col>
                 <ButtonVoltar
                   onClick={() => onClickVoltar({ navigate, route: ROUTES.FORMACAOES_INSCRICOES })}
@@ -144,9 +148,44 @@ export const TurmasInscricoes = () => {
         </HeaderPage>
 
         <CardContent>
-          <Typography.Title level={5} style={{ marginBottom: 24 }}>
-            {nomeFormacao}
-          </Typography.Title>
+          <Col span={24}>
+            <Row gutter={[16, 8]} justify='space-between'>
+              <Col xs={24} sm={16}>
+                <Typography.Title level={5} style={{ marginBottom: 24 }}>
+                  {nomeFormacao}
+                </Typography.Title>
+              </Col>
+              <Col xs={24} sm={8} id='colunaSorteio' style={{ textAlign: 'right' }}>
+                <Row align='middle' gutter={[8, 8]} justify='end'>
+                  <Col>
+                    <Typography.Text strong>
+                      Nº de Vagas: 10
+                    </Typography.Text>
+                  </Col>
+                  <Col>
+                    <Typography.Text strong type="warning">
+                      Nº de inscrições: 10
+                    </Typography.Text>
+                  </Col>
+                  <Col>
+                    <Typography.Text strong type="danger">
+                      Excedidas: 2
+                    </Typography.Text>
+                  </Col>
+                  <Col>
+                    <ButtonPrimary
+                      id={CF_BUTTON_SORTEIO}
+                      onClick={sortear}
+                      icon={<SyncOutlined />}
+                      disabled={!dadosInscricao?.podeInscrever}
+                    >
+                      Sortear Inscrições
+                    </ButtonPrimary>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Col>
           <Col span={24}>
             <Row gutter={[16, 8]}>
               <Col xs={24} sm={6}>
